@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "geometry"
+version = "0.0.1"
+description = "Geometrical calculation formulas"
+authors = ["Gustav Rasmussen"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "geometry"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+matplotlib = "^3.10.0"
+numpy = "2.2.0"
+# pandas = "^2.2.3"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.8.4"
+mypy = "^1.14.0"
+pytest = "^8.3.4"
+pytest-cov = "^6.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
