@@ -1,6 +1,7 @@
 
 import math
 from typing import Final
+import numpy as np
 from geometry.rectangle import (  # type: ignore
     rectangle_slopes,
     intersect,
@@ -10,13 +11,16 @@ from geometry.rectangle import (  # type: ignore
 
 def test_rectangle_slopes():
     angle: Final = math.radians(70)
-    slopes: tuple = (
+    expected_slopes = np.array([
         2.747477419454621,
         2.747477419454621,
         -0.36397023426620245,
         -0.36397023426620245,
-    )
-    assert rectangle_slopes(angle) == slopes, f"Should be {slopes}"
+    ])
+    actual_slopes = np.array(rectangle_slopes(angle))
+
+    assert np.allclose(actual_slopes, expected_slopes, atol=1e-9), "Slopes do not match"
+
 
 
 def test_intersect():
