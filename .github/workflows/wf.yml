@@ -51,11 +51,17 @@ jobs:
       - name: check-poetry-version
         run: poetry --version
 
-      # - name: lint-with-ruff
-      #   run: make -f .config/Makefile lint-ruff
+      - name: lint-with-ruff
+        run: make -f .config/Makefile lint-ruff
+        continue-on-error: true
 
-      # - name: static-type-checks-with-mypy
-      #   run: make -f .config/Makefile static-type-checks
+      - name: static-type-checks-with-mypy
+        run: make -f .config/Makefile static-type-checks
+        continue-on-error: true
+
+      - name: static-type-checks-with-ty
+        run: uvx ty check
+        # continue-on-error: true
 
       - name: Run tests
         run: poetry run pytest --cov --cov-report=xml
