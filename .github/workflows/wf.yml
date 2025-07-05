@@ -59,6 +59,21 @@ jobs:
         run: make -f .config/Makefile static-type-checks
         continue-on-error: true
 
+      - name: Install uv
+        run: |
+          # Install uv
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs  | sh -s -- -y
+          source "$HOME/.cargo/env"
+          cargo install --git https://github.com/astral-sh/uv.git  uv
+
+          # Add cargo binaries to PATH
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+      - name: Verify uv and uvx
+        run: |
+          uv --version
+          uvx --version          
+
       - name: static-type-checks-with-ty
         run: uvx ty check
         # continue-on-error: true
