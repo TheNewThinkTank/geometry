@@ -59,15 +59,27 @@ jobs:
         run: make -f .config/Makefile static-type-checks
         continue-on-error: true
 
-      - name: Install uv
-        run: |
-          # Install uv
-          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs  | sh -s -- -y
-          source "$HOME/.cargo/env"
-          cargo install --git https://github.com/astral-sh/uv.git  uv
+      - name: Get uv cache directory
+        id: get-cache-dir
+        run: echo "cache-dir=$(echo ~/.local/bin)" >> $GITHUB_OUTPUT
 
-          # Add cargo binaries to PATH
-          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+      - name: Restore uv cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.get-cache-dir.outputs.cache-dir }}
+          key: uv-binary-${{ runner.os }}-v1
+          restore-keys: |
+            uv-binary-${{ runner.os }}-
+      
+      - name: Install uv (if not cached)
+        if: steps.get-cache-dir.outputs.cache-dir == '' || steps.restore-cache.outcome == 'cache-miss'
+        run: |
+          mkdir -p ~/.local/bin
+          curl -LsSf https://astral.sh/uv/install.sh  | sh
+          echo "~/.local/bin" >> $GITHUB_PATH
+
+      - name: Add uv to PATH
+        run: echo "~/.local/bin" >> $GITHUB_PATH
 
       - name: Verify uv and uvx
         run: |
