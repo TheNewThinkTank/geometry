@@ -27,7 +27,7 @@ jobs:
 
       - name: cache-poetry-dependencies
         id: cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.cache/pypoetry/virtualenvs
           key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
@@ -42,7 +42,7 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
 
       - name: cache-mypy-dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.cache/mypy
           key: ${{ runner.os }}-mypy-${{ hashFiles('**/mypy.ini') }}
@@ -64,7 +64,7 @@ jobs:
         run: echo "cache-dir=$(echo ~/.local/bin)" >> $GITHUB_OUTPUT
 
       - name: Restore uv cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ steps.get-cache-dir.outputs.cache-dir }}
           key: uv-binary-${{ runner.os }}-v1
