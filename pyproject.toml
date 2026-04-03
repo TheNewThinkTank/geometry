@@ -10,7 +10,7 @@ packages = [{include = "geometry"}]
 [tool.poetry.dependencies]
 python = "^3.11"
 matplotlib = "^3.10.7"
-numpy = "2.3.5"
+numpy = "2.4.0"
 # pandas = "^2.2.3"
 
 [tool.poetry.group.dev.dependencies]
